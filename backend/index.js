@@ -1,10 +1,16 @@
 const express = require('express');
 const axios = require('axios');
 const path = require('path');
+const cors = require('cors'); // Import cors
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Serve static files from the React app
+// Enable CORS for all origins (or restrict to frontend's domain)
+app.use(cors()); // Allow CORS for all origins
+// You can restrict it to only your frontend by passing a specific origin:
+// app.use(cors({ origin: 'https://flag-explorer-frontend.azurewebsites.net' }));
+
+// Serve static files from the React app (build folder)
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Endpoint to retrieve a list of countries
@@ -15,9 +21,9 @@ app.get('/countries', async (req, res) => {
       name: country.name.common,
       flag: country.flags[0]
     }));
-    res.json(countries);
+    res.json(countries); // Send back the countries list as JSON
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send(error.message); // Handle errors gracefully
   }
 });
 
@@ -33,13 +39,13 @@ app.get('/countries/:name', async (req, res) => {
       capital: country.capital[0],
       flag: country.flags[0]
     };
-    res.json(countryDetails);
+    res.json(countryDetails); // Send country details as JSON
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send(error.message); // Handle errors gracefully
   }
 });
 
-// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
+// Catch-all route to serve the React app (for frontend routing)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });

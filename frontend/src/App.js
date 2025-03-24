@@ -7,15 +7,25 @@ function App() {
   const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
-    axios.get('/countries').then(response => {
-      setCountries(response.data);
-    });
+    // Update the API URL to your backend's full URL (backend deployed on Azure)
+    axios.get('https://flag-explorer-backend.azurewebsites.net/countries')
+      .then(response => {
+        setCountries(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching countries:', error);
+      });
   }, []);
 
   const handleFlagClick = (name) => {
-    axios.get(`/countries/${name}`).then(response => {
-      setSelectedCountry(response.data);
-    });
+    // Update the API URL for country details (backend deployed on Azure)
+    axios.get(`https://flag-explorer-backend.azurewebsites.net/countries/${name}`)
+      .then(response => {
+        setSelectedCountry(response.data);
+      })
+      .catch(error => {
+        console.error(`Error fetching details for ${name}:`, error);
+      });
   };
 
   return (
@@ -23,19 +33,22 @@ function App() {
       <h1>Country Flags</h1>
       <div className="grid">
         {countries.map(country => (
-          <img
-            key={country.name}
-            src={country.flag}
-            alt={country.name}
-            onClick={() => handleFlagClick(country.name)}
-          />
+          <div key={country.name} className="country-card">
+            <img
+              src={country.flag}
+              alt={country.name}
+              onClick={() => handleFlagClick(country.name)}
+              className="country-flag"
+            />
+            <p>{country.name}</p>
+          </div>
         ))}
       </div>
       {selectedCountry && (
         <div className="details">
           <h2>{selectedCountry.name}</h2>
-          <p>Population: {selectedCountry.population}</p>
-          <p>Capital: {selectedCountry.capital}</p>
+          <p><strong>Population:</strong> {selectedCountry.population}</p>
+          <p><strong>Capital:</strong> {selectedCountry.capital}</p>
           <img src={selectedCountry.flag} alt={selectedCountry.name} />
         </div>
       )}
