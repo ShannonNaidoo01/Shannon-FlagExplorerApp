@@ -1,6 +1,10 @@
 const request = require('supertest');
 const app = require('./index');
-const server = app.listen(3000);
+let server;
+
+beforeAll(() => {
+  server = app.listen(3000);
+});
 
 afterAll(() => {
   server.close();
