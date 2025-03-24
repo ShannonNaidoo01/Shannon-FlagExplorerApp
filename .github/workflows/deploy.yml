@@ -64,13 +64,15 @@ jobs:
         cd frontend
         npm run build
 
-    # Deploy frontend to Azure Web App
-    - name: Deploy to Azure Web App (Frontend)
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'flag-explorer-frontend'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND }}
-        package: ./frontend/build
+    # Create target directory for frontend build in backend
+    - name: Create target directory
+      run: |
+        mkdir -p backend/build
+
+    # Copy frontend build to backend
+    - name: Copy frontend build to backend
+      run: |
+        cp -r frontend/build/* backend/build
 
     # Deploy backend to Azure Web App
     - name: Deploy to Azure Web App (Backend)
@@ -79,3 +81,11 @@ jobs:
         app-name: 'flag-explorer-backend'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_BACKEND }}
         package: ./backend
+
+    # Deploy frontend to Azure Web App
+    - name: Deploy to Azure Web App (Frontend)
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'flag-explorer-frontend'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FRONTEND }}
+        package: ./frontend/build
