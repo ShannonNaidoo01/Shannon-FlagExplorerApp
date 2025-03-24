@@ -1,5 +1,10 @@
 const request = require('supertest');
 const app = require('./index');
+const server = app.listen(3000);
+
+afterAll(() => {
+  server.close();
+});
 
 describe('GET /countries', () => {
   it('should return a list of countries', async () => {
