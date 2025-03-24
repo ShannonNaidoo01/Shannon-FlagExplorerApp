@@ -64,10 +64,15 @@ jobs:
         cd frontend
         npm run build
 
+    # Create target directory for frontend build in backend
+    - name: Create target directory
+      run: |
+        mkdir -p backend/frontend/build
+
     # Copy frontend build to backend
     - name: Copy frontend build to backend
       run: |
-        cp -r frontend/build backend/frontend/build
+        cp -r frontend/build/* backend/frontend/build
 
     # Deploy backend to Azure Web App
     - name: Deploy to Azure Web App (Backend)
