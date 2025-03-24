@@ -7,7 +7,6 @@ function App() {
   const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
-    // Update the API URL to your backend's full URL (backend deployed on Azure)
     axios.get('https://flag-explorer-backend.azurewebsites.net/countries')
       .then(response => {
         setCountries(response.data);
@@ -18,7 +17,6 @@ function App() {
   }, []);
 
   const handleFlagClick = (name) => {
-    // Update the API URL for country details (backend deployed on Azure)
     axios.get(`https://flag-explorer-backend.azurewebsites.net/countries/${name}`)
       .then(response => {
         setSelectedCountry(response.data);
