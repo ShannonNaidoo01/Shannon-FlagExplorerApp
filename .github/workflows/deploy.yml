@@ -51,6 +51,7 @@ jobs:
       run: |
         cd frontend
         npm install
+        npm install @testing-library/react @testing-library/jest-dom
 
     # Run frontend tests
     - name: Run frontend tests
