@@ -1,0 +1,25 @@
+.App {
+    text-align: center;
+  }
+  
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .grid img {
+    width: 100px;
+    height: auto;
+    cursor: pointer;
+  }
+  
+  .details {
+    margin-top: 20px;
+  }
+  
+  .details img {
+    width: 200px;
+    height: auto;
+  }
