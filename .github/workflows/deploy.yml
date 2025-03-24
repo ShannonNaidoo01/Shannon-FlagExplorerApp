@@ -51,7 +51,6 @@ jobs:
       run: |
         cd frontend
         npm install
-        npm install @testing-library/react @testing-library/jest-dom
 
     # Run frontend tests
     - name: Run frontend tests
@@ -64,6 +63,11 @@ jobs:
       run: |
         cd frontend
         npm run build
+
+    # Create target directory for frontend build in backend
+    - name: Create target directory
+      run: |
+        mkdir -p backend/build
 
     # Copy frontend build to backend
     - name: Copy frontend build to backend
