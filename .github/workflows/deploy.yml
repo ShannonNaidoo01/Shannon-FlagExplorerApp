@@ -4,6 +4,16 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      SubscriptionId:
+        description: 'Subscription ID'
+        required: true
+        type: string
+      SubscriptionName:
+        description: 'Subscription Name'
+        required: true
+        type: string
 
 jobs:
   build-and-deploy:
@@ -12,6 +22,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    # Log in to Azure
+    - name: Log in to Azure
+      run: |
+        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
     # Set up Node.js
     - name: Set up Node.js
