@@ -1,6 +1,5 @@
 const request = require('supertest');
-const express = require('express');
-const app = require('./index');
+const app = require('./index'); // Import the app instead of running it
 
 describe('GET /countries', () => {
   it('should return a list of countries', async () => {

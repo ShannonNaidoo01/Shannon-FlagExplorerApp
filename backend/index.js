@@ -3,7 +3,6 @@ const axios = require('axios');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Endpoint to retrieve a list of countries
 app.get('/countries', async (req, res) => {
   try {
     const response = await axios.get('https://restcountries.com/v3.1/all');
@@ -17,7 +16,6 @@ app.get('/countries', async (req, res) => {
   }
 });
 
-// Endpoint to retrieve details of a specific country
 app.get('/countries/:name', async (req, res) => {
   try {
     const { name } = req.params;
@@ -35,6 +33,12 @@ app.get('/countries/:name', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// Export the app for testing
+module.exports = app;
+
+// Start the server only when running in production (or locally)
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}
