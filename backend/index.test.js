@@ -1,5 +1,10 @@
 const request = require('supertest');
-const app = require('./index'); // Import the app instead of running it
+const app = require('./index'); // Import the app without starting it
+
+// Close the server after tests are completed (to avoid Jest async issues)
+afterAll((done) => {
+  app.close(done); // Close the server explicitly after tests
+});
 
 describe('GET /countries', () => {
   it('should return a list of countries', async () => {
@@ -16,6 +21,6 @@ describe('GET /countries/:name', () => {
     expect(response.body).toHaveProperty('name');
     expect(response.body).toHaveProperty('population');
     expect(response.body).toHaveProperty('capital');
-    expect(response.body).toHaveProperty('flag');
+    expect(response.body).toHaveProperty('flag'); // This should work now
   });
 });
