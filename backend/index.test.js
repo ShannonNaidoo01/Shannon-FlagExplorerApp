@@ -3,7 +3,7 @@ const app = require('./index');
 let server;
 
 beforeAll(() => {
-  server = app.listen(3000);
+  server = app.listen(4000); // Use a different port for testing
 });
 
 afterAll(() => {
