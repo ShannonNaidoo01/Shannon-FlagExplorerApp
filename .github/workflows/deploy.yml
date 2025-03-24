@@ -64,6 +64,11 @@ jobs:
         cd frontend
         npm run build
 
+    # Create target directory for frontend build in backend
+    - name: Create target directory
+      run: |
+        mkdir -p backend/build
+
     # Copy frontend build to backend
     - name: Copy frontend build to backend
       run: |
